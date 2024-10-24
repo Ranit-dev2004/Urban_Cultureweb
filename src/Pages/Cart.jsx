@@ -46,7 +46,6 @@ const Cart = () => {
     }
   };
 
-  // Calculate total and subtotal
   const calculateTotal = () => {
     return cart.reduce((acc, item) => {
       const subtotal = item.productId.price * item.quantity;

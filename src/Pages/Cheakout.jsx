@@ -3,6 +3,7 @@ import { FaTruck, FaCreditCard, FaClipboardCheck } from 'react-icons/fa';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Payment from '../components/Payment';
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
@@ -10,7 +11,6 @@ const Checkout = () => {
   const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState({
     name: "",
-    email: "",
     phone: "",
     streetAddress: "",
     landmark: "",
@@ -31,7 +31,6 @@ const Checkout = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         setAddresses(response.data.addresses);
       } catch (error) {
         setError(`Error fetching addresses: ${error.message}`);
@@ -60,7 +59,6 @@ const Checkout = () => {
       setSuccess('Address added successfully!');
       setNewAddress({
         name: "",
-        email: "",
         phone: "",
         streetAddress: "",
         landmark: "",
@@ -68,11 +66,21 @@ const Checkout = () => {
         pinCode: "",
         state: "",
       });
+      setSelectedAddress(response.data._id);
     } catch (error) {
       setError("Error adding new address");
       console.error("Error adding new address:", error);
     }
-  }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="checkout-container mx-auto max-w-screen p-8">
       <Navbar />
@@ -85,18 +93,11 @@ const Checkout = () => {
           <span className="font-semibold">Address</span>
         </span>
         <span
-          className={`flex items-center space-x-2 cursor-pointer ${step === 2 ? 'text-black' : 'text-gray-400'}`}
-          onClick={() => setStep(2)}
+          className={`flex items-center space-x-2 cursor-pointer ${step === 2 && selectedAddress ? 'text-black' : 'text-gray-400'}`}
+          onClick={() => selectedAddress && setStep(2)}
         >
           <FaCreditCard className="text-xl" />
           <span className="font-semibold">Payment Method</span>
-        </span>
-        <span
-          className={`flex items-center space-x-2 cursor-pointer ${step === 3 ? 'text-black' : 'text-gray-400'}`}
-          onClick={() => setStep(3)}
-        >
-          <FaClipboardCheck className="text-xl" />
-          <span className="font-semibold">Review</span>
         </span>
       </div>
 
@@ -117,7 +118,7 @@ const Checkout = () => {
                     className="mr-2"
                   />
                   <span className="font-medium">{address.name}</span>
-                  <p className="text-gray-500">{`${address.streetAddress}, ${address.city}, ${address.state} - ${address.pincode}`}</p>
+                  <p className="text-gray-500">{`${address.streetAddress}, ${address.city}, ${address.state} - ${address.pinCode}`}</p>
                 </div>
                 <button className="text-sm text-black hover:underline">Edit</button>
               </div>
@@ -126,6 +127,7 @@ const Checkout = () => {
           <button
             onClick={() => setStep(2)}
             className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-600"
+            disabled={!selectedAddress}
           >
             Deliver Here
           </button>
@@ -134,61 +136,60 @@ const Checkout = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <input
                 type="text"
-                placeholder="Name"
+                name="name"
                 value={newAddress.name}
-                onChange={(e) => setNewAddress({ ...newAddress, name: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="Full Name"
+                className="border p-2 rounded-md w-full"
               />
               <input
-                type="email"
-                placeholder="Email"
-                value={newAddress.email}
-                onChange={(e) => setNewAddress({ ...newAddress, email: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
-              />
-              <input
-                type="tel"
-                placeholder="Mobile Number"
+                type="text"
+                name="phone"
                 value={newAddress.phone}
-                onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="Phone Number"
+                className="border p-2 rounded-md w-full"
               />
               <input
                 type="text"
-                placeholder="Flat, House, Building"
+                name="streetAddress"
                 value={newAddress.streetAddress}
-                onChange={(e) => setNewAddress({ ...newAddress, streetAddress: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="Street Address"
+                className="border p-2 rounded-md w-full"
               />
               <input
                 type="text"
-                placeholder="Landmark"
+                name="landmark"
                 value={newAddress.landmark}
-                onChange={(e) => setNewAddress({ ...newAddress, landmark: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="Landmark"
+                className="border p-2 rounded-md w-full"
               />
               <input
                 type="text"
-                placeholder="City"
+                name="city"
                 value={newAddress.city}
-                onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="City"
+                className="border p-2 rounded-md w-full"
               />
               <input
                 type="text"
-                placeholder="Pin Code"
+                name="pinCode"
                 value={newAddress.pinCode}
-                onChange={(e) => setNewAddress({ ...newAddress, pinCode: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
+                onChange={handleInputChange}
+                placeholder="Pin Code"
+                className="border p-2 rounded-md w-full"
               />
-              <select
+              <input
+                type="text"
+                name="state"
                 value={newAddress.state}
-                onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                className="border-gray-300 rounded-md p-3 focus:border-black focus:ring focus:ring-blue-200"
-              >
-                <option value="">Select State</option>
-                <option value="kentucky">Kentucky</option>
-              </select>
+                onChange={handleInputChange}
+                placeholder="State"
+                className="border p-2 rounded-md w-full"
+              />
             </div>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}
@@ -202,28 +203,7 @@ const Checkout = () => {
         </div>
       )}
 
-      {step === 2 && (
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-6">Select Payment Method</h2>
-          <p>Payment step details go here.</p>
-          <button
-            onClick={() => setStep(3)}
-            className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-600"
-          >
-            Proceed to Review
-          </button>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold mb-6">Review Order</h2>
-          <p>Review step details go here.</p>
-          <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-600">
-            Place Order
-          </button>
-        </div>
-      )}
+      {step === 2 && selectedAddress && <Payment />}
 
       <Footer />
     </div>
