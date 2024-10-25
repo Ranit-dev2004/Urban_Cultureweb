@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 
 const BestSelling = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const scrollRef = useRef(null); // Ref to the scrollable container
 
   useEffect(() => {
     const fetchBestSellingItems = async () => {
@@ -22,6 +23,18 @@ const BestSelling = () => {
     fetchBestSellingItems();
   }, []);
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' }); // Scroll left by 200 pixels
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' }); // Scroll right by 200 pixels
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -32,10 +45,18 @@ const BestSelling = () => {
 
   return (
     <div className="flex flex-col w-full ml-28 bg-white py-8 sm:py-12 px-4 sm:px-8">
-      <h2 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-left">Best Selling</h2>
-      <div className="flex overflow-x-auto space-x-4 sm:space-x-6 scrollbar-hide">
+      <div className="flex items-center mb-6 sm:mb-8">
+        <h2 className="text-5xl sm:text-5xl font-bold text-left transform -translate-x-5">Best Selling</h2>
+        <button onClick={scrollLeft} className="ml-4 p-2 bg-gray-300 rounded-full hover:bg-gray-400">
+          &#8592; {/* Left arrow */}
+        </button>
+        <button onClick={scrollRight} className="ml-2 p-2 bg-gray-300 rounded-full hover:bg-gray-400">
+          &#8594; {/* Right arrow */}
+        </button>
+      </div>
+      <div ref={scrollRef} className="flex overflow-x-auto space-x-4 sm:space-x-6 scrollbar-hide">
         {items.map((item) => (
-          <Link to={`/product/${item._id}`} key={item._id}> {/* Link to product details page */}
+          <Link to={`/product/${item._id}`} key={item._id}>
             <div className="item-card flex-shrink-0 mr-4 sm:mr-6 w-48 sm:w-64 bg-white shadow-lg rounded-lg">
               <img
                 src={item.img}

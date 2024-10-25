@@ -5,10 +5,11 @@ const Newarrival = () => {
   return (
     <div className='flex flex-col items-center p-12 bg-white'>
       <div className='flex justify-between items-center w-4/5 mb-8'>
-        <h2 className='text-5xl font-extrabold text-black tracking-wide'>New Arrivals</h2>
-        <button className='bg-black text-white py-2 px-8 rounded-full hover:bg-gray-800 transition duration-300 shadow-md'>
-          View All
-        </button>
+      <h2 className='text-5xl font-bold text-black tracking-wide transform -translate-x-14'>New Arrivals</h2>
+      <button className='bg-black text-white py-2 px-8 rounded-full hover:bg-gray-800 transition duration-300 shadow-md transform translate-x-14'>
+  View All
+</button>
+
       </div>
 
       <div className='relative bg-black text-white p-8 w-4/5 rounded-xl flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300 mb-12'>
