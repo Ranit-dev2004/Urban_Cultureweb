@@ -14,6 +14,7 @@ import Swag from './Swag_.png'
 import Wave from './Waves.png'
 import tshirt from './Group 1000006008.png'
 import octshirt from './Group 39.png'
+import logo from './Group 1000006024.png'
 export  const  assets = {
-   octshirt, AuthBac,Search,Cart,BannerImg,Star,Ellipse,perfume,speakers,freeDeliveryIcon,customerServiceIcon,moneyBackIcon,Swag,Discover,Wave,tshirt
+   octshirt, AuthBac,Search,Cart,BannerImg,Star,Ellipse,perfume,speakers,freeDeliveryIcon,customerServiceIcon,moneyBackIcon,Swag,Discover,Wave,tshirt,logo
 }
