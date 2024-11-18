@@ -57,6 +57,9 @@ const Navbar = () => {
     }
   };
 
+  const handleCart = async() => {
+    navigate('/Cart')
+  }
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto flex justify-between items-center py-2 px-4">
@@ -126,7 +129,10 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex items-center space-x-6">
           <div className="relative cursor-pointer">
-            <FiShoppingCart className="w-6 h-6 text-gray-700" />
+            <FiShoppingCart className="w-6 h-6
+             text-gray-700" 
+              onClick={handleCart}
+            />
             <div className="absolute -top-1 -right-2 w-5 h-5 bg-red-600 text-white rounded-full text-xs flex items-center justify-center">
               2
             </div>

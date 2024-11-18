@@ -6,7 +6,7 @@ const BestSelling = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const scrollRef = useRef(null); // Ref to the scrollable container
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const fetchBestSellingItems = async () => {
@@ -25,13 +25,13 @@ const BestSelling = () => {
 
   const scrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' }); // Scroll left by 200 pixels
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' }); // Scroll right by 200 pixels
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
     }
   };
 
@@ -59,7 +59,7 @@ const BestSelling = () => {
           <Link to={`/product/${item._id}`} key={item._id}>
             <div className="item-card flex-shrink-0 mr-4 sm:mr-6 w-48 sm:w-64 bg-white shadow-lg rounded-lg">
               <img
-                src={item.img}
+                src={item.images?.[0]?.img || 'default-image.jpg'}
                 alt={item.name}
                 className="w-full h-32 sm:h-48 object-cover rounded-t-lg"
               />
@@ -67,10 +67,10 @@ const BestSelling = () => {
                 <h3 className="text-lg sm:text-xl font-semibold mt-2">{item.name}</h3>
                 <p className="text-gray-600 text-sm sm:text-base">
                   ${item.price}{' '}
-                  <span className="line-through text-gray-400">${item.oldPrice}</span>
+                  {item.oldPrice && <span className="line-through text-gray-400">${item.oldPrice}</span>}
                 </p>
                 <p className="text-yellow-500 text-sm">Rating: {item.rating} / 5 ({item.reviews} reviews)</p>
-                <span className="text-red-500 text-sm">{item.discount}</span>
+                {item.discount && <span className="text-red-500 text-sm">-{item.discount}%</span>}
               </div>
             </div>
           </Link>

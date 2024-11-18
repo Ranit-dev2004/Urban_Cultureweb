@@ -80,7 +80,6 @@ const Checkout = () => {
       [name]: value,
     }));
   };
-
   return (
     <div className="checkout-container mx-auto max-w-screen p-8">
       <Navbar />
